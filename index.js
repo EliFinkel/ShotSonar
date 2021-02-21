@@ -6,6 +6,8 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 var nodemailer = require('nodemailer');
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -68,30 +70,19 @@ app.listen('8080', () => {
 
 
 async function sendMessage (email, zipcode){
-
-      let testAccount = await nodemailer.createTestAccount();
-
-      let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-          user: testAccount.user, // generated ethereal user
-          pass: testAccount.pass, // generated ethereal password
-        },
-      });
-      let info = await transporter.sendMail({
-        from: 'Covid Vaccine Alert', // sender address
-        to: email, // list of receivers
-        subject: "Vaccine Found!", // Subject line
-        text: `The walgreens at ${zipcode} is now taking apointments! Please hurry`, // plain text body
-        html: "<b>Hello world?</b>", // html body
-      });
-    
-      console.log("Message sent: %s", info.messageId);
-
-      
-    }
+  const accountSid = 'AC6a959999e04bc8aaf96addd6fb3033d5';
+  const authToken = '3a1ecf374b93ebdc7001156b364af3e4';
+  const client = require('twilio')(accountSid, authToken);
+  
+  client.messages
+    .create({
+       body: `Yay!! We found a vaccine at ${zipcode}.  Act fast and signup at walgreens`,
+       from: '+14704357976',
+       to: `+1${email}`
+     })
+    .then(message => console.log(message.sid));
+ 
+}
     
   
 

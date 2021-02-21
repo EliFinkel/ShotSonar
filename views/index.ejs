@@ -9,8 +9,8 @@
         function setParams(){
             var zip = document.getElementById("zipcode").value;
             var radius = document.getElementById("radius").value;
-            var email = document.getElementById("email").value;
-            window.location.href = `/test/${zip}/${radius}/${email}`
+            var phone = document.getElementById("phone").value;
+            window.location.href = `/test/${zip}/${radius}/${phone}`
         }
 
     </script>
@@ -21,8 +21,8 @@
         <input type="text" name = "zipcode" for = "zipcode" id = "zipcode">
         <label for="radius">How far are you willing to drive(miles)?</label>
         <input type="text" name = "radius" for = "radius" id = "radius">
-        <label for="email">What is your email(Check for emails from us frequently)?</label>
-        <input type="text" name = "email" for = "email" id = "email">
+        <label for="phone">What is your phone number(NO SPACES!)?</label>
+        <input type="text" name = "phone" for = "phone" id = "phone">
         <button onclick = "setParams()">Click To Continue</button>
     </form>
 </body>
