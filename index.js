@@ -5,7 +5,7 @@ var zipcodes = require('zipcodes');
 const puppeteer = require('puppeteer');
 const path = require('path');
 var nodemailer = require('nodemailer');
-
+const controller = require('./controllers/controller.js');
 
 
 // view engine setup
@@ -20,105 +20,17 @@ app.use('/static', express.static('public'))
 
 
 
-app.get('/test/:zip/:radius/:number', async (req,res) => {
-    
+app.get('/test/:zip/:radius/:number', controller.runTest);
 
-    const job = schedule.scheduleJob('*/2 * * * *', async () => {
-        
-        console.log("😀");
-        (async () => { 
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-    
-            await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
-            var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
-            for(let i = 0; i < nearbyZips.length; i++){
-                try{
-                    if(nearbyZips[i].length < 5) break;
-                    console.log(nearbyZips[i]);
-                    await page.$eval('input[name=text]', nearbyZips[i]);
-            
-                    const form = await page.$('.btn');
-                    await form.evaluate( form => form.click() );
-            
-                    await page.waitForSelector('p.fs16')
-                    let element = await page.$('p.fs16')
-                    let value = await page.evaluate(el => el.textContent, element)
-                    console.log(value);
-                    if(value != "Appointments unavailable"){
-                        console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
-                        console.log(`Go to ${nearbyZips[i]}`)
-                        //sendEmail(req.params.number, nearbyZips[i]);
-                        sendMessage(req.params.number, nearbyZips[i]);
-                        
-                  }
-                }catch(err){
-                    console.log(err);
-                }
-               
-            }
-            
-    
-            await browser.close();
-        })();
-    })
-   
-})
+app.get('/sendEmail', controller.sendMail);
 
 
 
-
-app.get('/', (req,res) => {
-   res.render('index');
-})
+app.get('/', (req,res) => {res.render('index');})
 
 
 app.listen('8080', () => {
     console.log("Server Started");
   
 })
-
-
-async function sendMessage (email, zipcode){
-  const accountSid = 'AC33ade5747efbc0b824ba739524e1737a';
-  const authToken = 'c239672920d3253c0b906f98798f24e4';
-  const client = require('twilio')(accountSid, authToken);
-  
-  client.messages
-    .create({
-       body: `Yay!! We found a vaccine at ${zipcode}.  Act fast and signup at walgreens`,
-       from: '+16308127527',
-       to: `+1${email}`
-     })
-    .then(message => console.log(message.sid));
- 
-}
-    
-
-function sendEmail(email, zipcode){
-    let transport = nodemailer.createTransport({
-        host: 'mailosaur.net',
-        port: 2525,
-        auth: {
-           user: 'smooth-explanation@rqlfbr0h.mailosaur.net',
-           pass: 'DbL9ftSZ'
-        }
-    });
-
-    const message = {
-        from: 'eligfinkel@gmail.com', // Sender address
-        to: email,         // List of recipients
-        subject: `We found a vaccine for you at ${zipcode}`, // Subject line
-        text: `We found a vaccine for you at ${zipcode}` // Plain text body
-    };
-    transport.sendMail(message, function(err, info) {
-        if (err) {
-          console.log(err)
-        } else {
-          console.log(info);
-        }
-    });
-}
-
-
 
