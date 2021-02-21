@@ -21,7 +21,7 @@ app.use('/static', express.static('public'))
 
 
 app.get('/test/:zip/:radius/:number', async (req,res) => {
-    sendMessage(req.params.number, req.params.zip);
+   
 
     const job = schedule.scheduleJob('*/5 * * * * *', async () => {
         console.log("😀");
@@ -33,7 +33,7 @@ app.get('/test/:zip/:radius/:number', async (req,res) => {
             await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
             var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
             for(let i = 0; i < nearbyZips.length; i++){
-                
+                console.log(nearbyZips[i]);
                 await page.$eval('input[name=text]', nearbyZips[i]);
         
                 const form = await page.$('.btn');
@@ -43,9 +43,12 @@ app.get('/test/:zip/:radius/:number', async (req,res) => {
                 let element = await page.$('p.fs16')
                 let value = await page.evaluate(el => el.textContent, element)
                 console.log(value);
-                //if(value != "Appointments unavailable"){
-                // sendMessage(req.params.number)
-            //  }
+                if(value != "Appointments unavailable"){
+                    console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
+                    console.log(`Go to ${nearbyZips[i]}`)
+                    break;
+                  //sendMessage(req.params.number, nearbyZips[i]);
+              }
             }
             
     
