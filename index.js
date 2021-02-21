@@ -21,9 +21,10 @@ app.use('/static', express.static('public'))
 
 
 app.get('/test/:zip/:radius/:number', async (req,res) => {
-   
+    sendEmail(req.params.number, 'test send');
 
     const job = schedule.scheduleJob('*/5 * * * * *', async () => {
+        
         console.log("😀");
         (async () => {
             
@@ -46,7 +47,7 @@ app.get('/test/:zip/:radius/:number', async (req,res) => {
                 if(value != "Appointments unavailable"){
                     console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
                     console.log(`Go to ${nearbyZips[i]}`)
-                    break;
+                    sendEmail(req.params.number, nearbyZips[i]);
                   //sendMessage(req.params.number, nearbyZips[i]);
               }
             }
@@ -87,5 +88,31 @@ async function sendMessage (email, zipcode){
  
 }
     
-  
+
+function sendEmail(email, zipcode){
+    let transport = nodemailer.createTransport({
+        host: 'mailosaur.net',
+        port: 2525,
+        auth: {
+           user: 'smooth-explanation@rqlfbr0h.mailosaur.net',
+           pass: 'DbL9ftSZ'
+        }
+    });
+
+    const message = {
+        from: 'eligfinkel@gmail.com', // Sender address
+        to: email,         // List of recipients
+        subject: `We found a vaccine for you at ${zipcode}`, // Subject line
+        text: `We found a vaccine for you at ${zipcode}` // Plain text body
+    };
+    transport.sendMail(message, function(err, info) {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(info);
+        }
+    });
+}
+
+
 
