@@ -31,10 +31,11 @@ const puppeteer = require('puppeteer');
     const page = await browser.newPage();
     
     await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
-    var nearbyZips = zipcodes.radius(60035, 100);
+    var nearbyZips = zipcodes.radius(60035, 300);
     for(let i = 0; i < nearbyZips.length; i++){
        
-        await page.$eval('input[name=text]', nearbyZips[i]);
+        console.log(nearbyZips[i]);
+       /* await page.$eval('input[name=text]', nearbyZips[i]);
 
         const form = await page.$('.btn');
         await form.evaluate( form => form.click() );
@@ -42,7 +43,7 @@ const puppeteer = require('puppeteer');
         await page.waitForSelector('p.fs16')
         let element = await page.$('p.fs16')
         let value = await page.evaluate(el => el.textContent, element)
-        console.log(value);
+        console.log(value);*/
     }
    
     await browser.close();
