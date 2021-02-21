@@ -9,8 +9,9 @@
         function setParams(){
             var zip = document.getElementById("zipcode").value;
             var radius = document.getElementById("radius").value;
-            var email = document.getElementById("phone").value;
+            var email = document.getElementById("email").value;
             window.location.href = `/test/${zip}/${radius}/${email}`
+            console.log(email);
         }
 
     </script>
