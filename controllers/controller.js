@@ -9,7 +9,6 @@ exports.runTest = async (req, res) => {
     console.log('Starting Test Soon');
     
     const job = schedule.scheduleJob('*/2 * * * *', async () => {
-       
         console.log("😀");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -23,6 +22,7 @@ exports.runTest = async (req, res) => {
                     console.log(nearbyZips[i]);
                     await page.$eval('input[name=text]', nearbyZips[i]);
             
+
                     const form = await page.$('.btn');
                     await form.evaluate( form => form.click() );
             
@@ -34,7 +34,7 @@ exports.runTest = async (req, res) => {
                         console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
                         console.log(`Go to ${nearbyZips[i]}`)
                         sendEmail(req.params.number, nearbyZips[i]);
-                       
+                                                                                           
                         
                   }
                 }catch(err){

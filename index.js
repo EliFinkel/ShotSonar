@@ -26,7 +26,13 @@ app.get('/sendEmail', controller.sendMail);
 
 
 
-app.get('/', (req,res) => {res.render('index');})
+//app.get('/', (req,res) => {res.render('index');})
+
+
+app.get('/', (req,res) => {res.render('newFrontend');})
+
+
+
 
 
 app.listen('8080', () => {
