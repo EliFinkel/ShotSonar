@@ -21,11 +21,12 @@
     <%-include('./partials/navCss.ejs')%>
 
     <script>      
-        function setParams(){
+         function setParams(){
             var zip = document.getElementById("zipcode").value;
             var radius = document.getElementById("radius").value;
             var email = document.getElementById("email").value;
-            window.location.href = `/test/${zip}/${radius}/${email}`
+            var number = document.getElementById("number").value;
+            window.location.href = `/test/${zip}/${radius}/${email}/${number}`
             console.log(email);
         }
 
@@ -49,6 +50,7 @@
             <p> <input id = "zipcode" class="InputStyle" placeholder="Zip Code &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "email" class="InputStyle" placeholder="Email(Check Often) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
+            <p> <input id = "number" class="InputStyle" placeholder="Phone Number &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
             <br>
             <br>

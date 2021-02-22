@@ -20,7 +20,7 @@ app.use('/static', express.static('public'))
 
 
 
-app.get('/test/:zip/:radius/:email', controller.runTest);
+app.get('/test/:zip/:radius/:email/:number', controller.runTest);
 
 app.get('/realTime/:zip/:radius', controller.realTime);
 

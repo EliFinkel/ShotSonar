@@ -40,6 +40,7 @@ exports.runTest = async (req, res) => {
                         if(value != "Appointments unavailable"){
                             console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
                             console.log(`Go to ${nearbyZips[i]}`)
+                            await sendMessage(req.params.number, nearbyZips[i]);
                             await sendEmail(req.params.email, nearbyZips[i]);                                                             
                     }
                      
@@ -141,16 +142,16 @@ exports.sendMail = (req,res) => {
 
 
 
-async function sendMessage (email, zipcode){
-    const accountSid = 'AC33ade5747efbc0b824ba739524e1737a';
-    const authToken = 'c239672920d3253c0b906f98798f24e4';
+async function sendMessage (phone, zipcode){
+    const accountSid = 'ACe4bd948b994e6f4818ac7a6dd12bb32c';
+    const authToken = '9fc5aa06e51bf5bb3d810fd29e7669ce';
     const client = require('twilio')(accountSid, authToken);
     
     client.messages
       .create({
-         body: `Yay!! We found a vaccine at ${zipcode}.  Act fast and signup at walgreens`,
-         from: '+16308127527',
-         to: `+1${email}`
+         body: `Yay!! we found a vaccine at ${zipcode}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`,
+         from: '+14693366144',
+         to: `+1${phone}`
        })
       .then(message => console.log(message.sid));
    
