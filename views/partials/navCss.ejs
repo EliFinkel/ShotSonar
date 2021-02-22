@@ -1,0 +1,56 @@
+<style>.container-fluid.main{
+    position: relative; /* To make the navbar positions relative to this container */
+    padding: 0;
+  }
+  
+  .navbar-default {
+    background-image: none;
+    background-color: transparent; /* Make the menu become transparent */
+    border-radius: 0px;
+    border: 0;
+    box-shadow: none;
+    padding: 10px;
+    position: absolute; /* Make the menu out of the document flow so it can placed anywhere without disturbing other widgets */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10; /* If you delete this line, your menu link won't be clicked because it is behind the background. Applying this code bring the menu in front of the background */
+  }
+  
+  .navbar-default .navbar-brand {
+    font-family: Verdana;
+    color: #ffffff;
+    font-size: 20px;
+  }
+  
+  .navbar-default .navbar-brand:hover,
+  .navbar-default .navbar-brand:focus {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  
+  .navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+  }
+  
+  .navbar-default .navbar-nav > li > a:hover,
+  .navbar-default .navbar-nav > li > a:focus {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+  }
+  
+  .navbar-default .navbar-toggle:hover {
+    background-color: transparent;
+  }
+  
+  .navbar-default .navbar-toggle:focus {
+    background-color: transparent;
+  }
+  
+  .navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+  }</style>

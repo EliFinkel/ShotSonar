@@ -22,7 +22,12 @@ app.use('/static', express.static('public'))
 
 app.get('/test/:zip/:radius/:number', controller.runTest);
 
+app.get('/realTime/:zip/:radius', controller.realTime);
+
 app.get('/sendEmail', controller.sendMail);
+
+
+app.get('/realTime', (req,res) => {res.render('realTimeInput.ejs');})
 
 
 

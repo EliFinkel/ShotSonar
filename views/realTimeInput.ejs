@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    </style>
+ 
     <title>Document</title>
 
         <!-- Latest compiled and minified CSS -->
@@ -17,44 +16,56 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+
     <%-include('./partials/mainCss.ejs')%>
     <%-include('./partials/navCss.ejs')%>
-
     <script>      
         function setParams(){
             var zip = document.getElementById("zipcode").value;
             var radius = document.getElementById("radius").value;
-            var email = document.getElementById("email").value;
-            window.location.href = `/test/${zip}/${radius}/${email}`
+           
+            window.location.href = `/realTime/${zip}/${radius}`
             console.log(email);
         }
     </script>
 </head>
 <body>
-    <!--Div for Background-->
     <%-include('./partials/nav.ejs')%>
+    <!--Div for Background-->
     <div class="bg text-center">
         <!--Div for Centered Text & Input-->
         <div class="centered">
+            <p class="firstLine"> R &nbsp; E &nbsp; A &nbsp; L &nbsp; . &nbsp; T &nbsp; I &nbsp; M &nbsp; E &nbsp;  </p>
             <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
-            <p class="firstLine"> H &nbsp; U &nbsp; N &nbsp; T &nbsp; E &nbsp; R &nbsp;   </p>
-            <p class="secondLine">The Easiest Way To Get Vaccinated</p>
+            <p class="firstLine"> F &nbsp; I &nbsp; N &nbsp; D &nbsp; E &nbsp; R &nbsp;   </p>
+            <p class="secondLine">Check For Current Vaccines</p>
             
             <p> <input id = "zipcode" class="InputStyle" placeholder="Zip Code &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <p> <input id = "email" class="InputStyle" placeholder="Email(Check Often) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
+    
             <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
-            <p class="secondLine">To Cancel a Reoccurring search please enter your email below</p>
-            <p> <input id = "userEmail" class="InputStyle" placeholder="example@gmail.com &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
         </div>
 
-    
-    <!--Div for bottom Icons-->
-    
+  
     </div>
 
+    <div class="bg text-center">
+        <!--Div for Centered Text & Input-->
+        <div class="centered">
+            <p class="firstLine"> R &nbsp; E &nbsp; A &nbsp; L &nbsp; . &nbsp; T &nbsp; I &nbsp; M &nbsp; E &nbsp;  </p>
+            <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
+            <p class="firstLine"> F &nbsp; I &nbsp; N &nbsp; D &nbsp; E &nbsp; R &nbsp;   </p>
+            <p class="secondLine">Check For Current Vaccines</p>
+            
+            <p> <input id = "zipcode" class="InputStyle" placeholder="Zip Code &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
+            <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
+    
+            <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
+        </div>
 
+  
+    </div>
 
+ 
 </body>
 </html>

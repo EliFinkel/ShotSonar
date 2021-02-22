@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "alert": "^5.0.10",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
     "ejs": "^3.1.6",
@@ -20,6 +21,7 @@
     "nodemailer": "^6.4.18",
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
+    "popups": "^1.1.3",
     "puppeteer": "^7.1.0",
     "twilio": "^3.56.0",
     "zipcodes": "^8.0.0"
