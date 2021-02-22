@@ -31,6 +31,7 @@
 
         function cancelSearch(){
             var email = document.getElementById("userEmail").value;
+            console.log(email)
             window.location.href = `/cancel/${email}`
         }
     </script>
@@ -49,9 +50,13 @@
             <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "email" class="InputStyle" placeholder="Email(Check Often) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
-              <!-- <p class="secondLine">To Cancel a Reoccurring search please enter your email below</p>
-            <p> <input id = "userEmail" class="InputStyle" placeholder="example@gmail.com &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>-->
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3>To Cancel a Reoccurring search please enter your email below</h3>
+            <p> <input id = "userEmail" class="InputStyle" placeholder="Email &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
+            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg btn-block">End Previous Search</button>
         </div>
 
     

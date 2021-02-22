@@ -24,10 +24,10 @@ app.get('/test/:zip/:radius/:email', controller.runTest);
 
 app.get('/realTime/:zip/:radius', controller.realTime);
 
-app.get('/sendEmail', controller.sendMail);
+app.get('/sendEmail', controller.sendMail); 
 
 
-app.get('/realTime', (req,res) => {res.render('realTimeInput.ejs');})
+app.get('/realTime', (req,res) => {res.render('realTimeInput.ejs');}) 
 
 app.get('/cancel/:email', controller.endSearch);
 

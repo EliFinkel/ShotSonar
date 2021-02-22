@@ -13,7 +13,9 @@ exports.runTest = async (req, res) => {
     //Test Email
     //await sendEmail(req.params.email, 'test');    
     var jobName = req.params.email;
+   
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+       
         console.log("😀");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -53,7 +55,6 @@ exports.runTest = async (req, res) => {
             await browser.close();
         })();
     })
-
     res.redirect('/');
 }
 
@@ -61,14 +62,13 @@ exports.runTest = async (req, res) => {
 
 
 
-exports.endSearch = async (req,res) => {
-    try{
-        let currentJob = schedule.scheduleJobs[req.params.email];
-        currentJob.cancel();
+exports.endSearch =  async (req,res) => {
+
+  
+        let currentJob = schedule.scheduledJobs[req.params.email];
+        await currentJob.cancel();
         console.log(`[-] ${req.params.email}'s search was canceled`);
-    }catch(err){
-        console.log(`Error: ${err}`);
-    }
+
     
 }
 
