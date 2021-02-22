@@ -10,6 +10,8 @@ var CronJob = require('cron').CronJob;
 
 exports.runTest = async (req, res) => {
     console.log('Starting Test Soon');
+    //Test Email
+    //await sendEmail(req.params.email, 'test');    
     var jobName = req.params.email;
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("😀");
@@ -36,7 +38,7 @@ exports.runTest = async (req, res) => {
                         if(value != "Appointments unavailable"){
                             console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
                             console.log(`Go to ${nearbyZips[i]}`)
-                            sendEmail(req.params.email, nearbyZips[i]);                                                             
+                            await sendEmail(req.params.email, nearbyZips[i]);                                                             
                     }
                      
                         
@@ -118,9 +120,11 @@ exports.realTime = async (req,res) => {
           alert(`There Are No Walgreens Taking Apointments within ${req.params.radius} miles of ${req.params.zip}`);
           await res.render('realTime', {zipcodes: 'none'});
         }
+    
            
     })();
 
+ 
 
 
 
