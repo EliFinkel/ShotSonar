@@ -4,13 +4,14 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 var nodemailer = require('nodemailer');
 const alert = require('alert'); 
+var CronJob = require('cron').CronJob;
 
 
-/*
+
 exports.runTest = async (req, res) => {
     console.log('Starting Test Soon');
-    //Should be /2
-    const job = schedule.scheduleJob(req.params.number, '*2 * * * *', async () => {
+    var jobName = req.params.email;
+    const job = schedule.scheduleJob(jobName, '*/5 * * * * *', async () => {
         console.log("😀");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -35,7 +36,7 @@ exports.runTest = async (req, res) => {
                         if(value != "Appointments unavailable"){
                             console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
                             console.log(`Go to ${nearbyZips[i]}`)
-                            sendEmail(req.params.number, nearbyZips[i]);                                                                   
+                            sendEmail(req.params.email, nearbyZips[i]);                                                             
                     }
                      
                         
@@ -50,11 +51,23 @@ exports.runTest = async (req, res) => {
             await browser.close();
         })();
     })
-}*/
+
+    res.redirect('/');
+}
+
+
+
 
 
 exports.endSearch = async (req,res) => {
-
+    try{
+        let currentJob = schedule.scheduleJobs[req.params.email];
+        currentJob.cancel();
+        console.log(`[-] ${req.params.email}'s search was canceled`);
+    }catch(err){
+        console.log(`Error: ${err}`);
+    }
+    
 }
 
 
@@ -107,6 +120,9 @@ exports.realTime = async (req,res) => {
         }
            
     })();
+
+
+
 
          
 }
