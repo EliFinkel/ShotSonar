@@ -11,7 +11,7 @@ var CronJob = require('cron').CronJob;
 exports.runTest = async (req, res) => {
     console.log('Starting Test Soon');
     var jobName = req.params.email;
-    const job = schedule.scheduleJob(jobName, '*/5 * * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("😀");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -159,7 +159,7 @@ async function sendMessage (email, zipcode){
   
 function sendEmail(email, zipcode){
     // declare vars,
-    let fromMail = 'eligfinkel@gmail.com';
+    let fromMail = 'vaccinehunteralert@gmail.com';
     let toMail = email;
     let subject = `Vaccine found at ${zipcode}`;
     let text = `Yay!! we found a vaccine at ${zipcode}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
@@ -168,7 +168,7 @@ function sendEmail(email, zipcode){
         service: 'gmail',
         auth: {
             user: fromMail,
-            pass: 'garrison168211'
+            pass: 'vaccineHunter123'
         }
     });
     let mailOptions = {
