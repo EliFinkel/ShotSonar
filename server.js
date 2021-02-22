@@ -41,7 +41,7 @@ app.get('/', (req,res) => {res.render('newFrontend');})
 
 let port = process.env.PORT || 8080;
 app.use(express.static(__dirname));
-app.listen('8080', () => {
+app.listen(port, () => {
     console.log("Server Started");
   
 })
