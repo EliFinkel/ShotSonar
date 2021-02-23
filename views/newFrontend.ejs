@@ -26,14 +26,26 @@
             var radius = document.getElementById("radius").value;
             var email = document.getElementById("email").value;
             var number = document.getElementById("number").value;
-            window.location.href = `/test/${zip}/${radius}/${email}/${number}`
-            console.log(email);
+            if(zip == "" || radius == "" || email == "" || number == ""){
+                alert("Sorry! You entered incomplete info");
+            }
+            else{
+                window.location.href = `/test/${zip}/${radius}/${email}/${number}`
+                console.log(email);
+            }
+          
         }
 
         function cancelSearch(){
             var email = document.getElementById("userEmail").value;
-            console.log(email)
-            window.location.href = `/cancel/${email}`
+            if(email == ""){
+                alert("Sorry! You entered incomplete info");
+            }
+            else{
+                console.log(email)
+                window.location.href = `/cancel/${email}`
+            }
+           
         }
     </script>
 </head>
@@ -51,14 +63,14 @@
             <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "email" class="InputStyle" placeholder="Email(Check Often) &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
             <p> <input id = "number" class="InputStyle" placeholder="Phone Number &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
+            <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg">Start Searching</button>
             <br>
             <br>
             <br>
             <br>
-            <h3>To Cancel a Reoccurring search please enter your email below</h3>
+            <h5>To Cancel a Reoccurring search please enter your email below</h3>
             <p> <input id = "userEmail" class="InputStyle" placeholder="Email &#xf0e0; " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg btn-block">End Previous Search</button>
+            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg">End Previous Search</button>
         </div>
 
     
