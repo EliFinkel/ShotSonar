@@ -11,6 +11,7 @@ const axios = require('axios');
 exports.runTest = async (req, res) => {
    // var testDist = getDist(61371);
     //console.log(testDist);
+    var workingZips = [];
     console.log('Starting Test Soon');
     //Test Email
     //await sendEmail(req.params.email, 'test');    
@@ -35,10 +36,11 @@ exports.runTest = async (req, res) => {
                         let value = await page.evaluate(el => el.textContent, element)
                         console.log(value);
                         if(value != "Appointments unavailable"){
-                            console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
+                            console.log("FOUND!!! 😀 😃 😄 ")
                             console.log(`Go to ${nearbyZips[i]}`)
+                            workingZips.push(nearbyZips);
                             //await sendMessage(req.params.number, nearbyZips[i]);
-                            await sendEmail(req.params.email, nearbyZips[i]);        
+                                 
                                                                                  
                     }       
                   }
@@ -46,6 +48,7 @@ exports.runTest = async (req, res) => {
                     console.log(err);
                 }  
             }
+            await sendEmail(req.params.email, workingZips);   
             await browser.close();
         })();
     })
@@ -75,7 +78,7 @@ exports.realTime = async (req,res) => {
         for(let i = 0; i < nearbyZips.length; i++){
             try{
                 if(nearbyZips[i].length >= 5){
-                    console.log(nearbyZips[i]);
+                    //console.log(nearbyZips[i]);
                     await page.$eval('input[name=text]', nearbyZips[i]);
                     const form = await page.$('.btn');
                     await form.evaluate( form => form.click());
@@ -84,9 +87,9 @@ exports.realTime = async (req,res) => {
                     let value = await page.evaluate(el => el.textContent, element)
                     console.log(value);
                     if(value != "Appointments unavailable"){
-                        console.log("FOUND!!! 😀 😃 😄 😀 😃 😄 😀 😃 😄 😀 😃 😄")
-                        console.log(`Go to ${nearbyZips[i]}`)
-                        workingZips.push(nearbyZips[i]);
+                        //console.log("FOUND!!! 😀 😃 😄")
+                      //  console.log(`Go to ${nearbyZips[i]}`)
+                       // workingZips.push(nearbyZips[i]);
                     }
                 }
             }catch(err){
@@ -157,12 +160,16 @@ async function sendMessage (phone, zipcode){
 
 
   
-async function sendEmail(email, zipcode){
+async function sendEmail(email, zipcodes){
     // declare vars,
+    var zipcodeString = ""
+    for(var i = 0; i < zipcodes.length; i++){
+        zipcodeString+=zipcodes[i] + ", ";
+    }
     let fromMail = 'vaccinehunteralert@gmail.com';
     let toMail = email;
-    let subject = `Vaccine found at ${zipcode}`;
-    let text = `Yay!! we found a vaccine at ${zipcode}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
+    let subject = `Vaccines`;
+    let text = `Yay!! we found a vaccines at ${zipcodeString}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
