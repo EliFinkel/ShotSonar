@@ -22,6 +22,7 @@ app.use('/static', express.static('public'))
 
 app.get('/test/:zip/:radius/:email/:number', controller.runTest);
 
+
 app.get('/realTime/:zip/:radius', controller.realTime);
 
 app.get('/sendEmail', controller.sendMail); 

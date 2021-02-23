@@ -44,7 +44,17 @@
             <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) " style="font-family:Arial, FontAwesome" type="text"> </p>
     
             <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
-            <p>Here are the working ZipCodes Right Now: <%=zipcodes%></p>
+            <h2>Here are the working ZipCodes Right Now</h2>
+
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <tr><th>ZipCodes</th></tr>
+               <!-- <tr><td id = "item">Hello</td></tr>-->
+                 <% for(var i = 0; i < workingZips.length; i++){%>
+                    <tr>
+                        <td id = "item"><%=workingZips[i]%></td>
+                    </tr>
+                <% }%>
+            </table>
         </div>
 
         
