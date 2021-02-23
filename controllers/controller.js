@@ -48,7 +48,10 @@ exports.runTest = async (req, res) => {
                     console.log(err);
                 }  
             }
-            await sendEmail(req.params.email, workingZips);   
+            if(workingZips.length > 0){
+                await sendEmail(req.params.email, workingZips);   
+            }
+            
             await browser.close();
         })();
     })
