@@ -6,6 +6,7 @@ var nodemailer = require('nodemailer');
 const alert = require('alert'); 
 var CronJob = require('cron').CronJob;
 const axios = require('axios');
+const { table } = require('console');
 
 
 exports.runTest = async (req, res) => {
@@ -13,8 +14,6 @@ exports.runTest = async (req, res) => {
     //console.log(testDist);
     var workingZips = [];
     console.log('Starting Test Soon');
-    //Test Email
-    //await sendEmail(req.params.email, 'test');    
     var jobName = req.params.email;
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         const nearestWorkingZip = '';
@@ -39,8 +38,6 @@ exports.runTest = async (req, res) => {
                             console.log("FOUND!!! 😀 😃 😄 ")
                             console.log(`Go to ${nearbyZips[i]}`)
                             workingZips.push(nearbyZips);
-                            //await sendMessage(req.params.number, nearbyZips[i]);
-                                 
                                                                                  
                     }       
                   }
@@ -64,9 +61,11 @@ exports.endSearch =  async (req,res) => {
         let currentJob = schedule.scheduledJobs[req.params.email];
         if(currentJob != null){
             await currentJob.cancel();
+
         }
         
         console.log(`[-] ${req.params.email}'s search was canceled`);
+        res.redirect('/');
 }
 
 
@@ -92,7 +91,7 @@ exports.realTime = async (req,res) => {
                     if(value != "Appointments unavailable"){
                         //console.log("FOUND!!! 😀 😃 😄")
                       //  console.log(`Go to ${nearbyZips[i]}`)
-                       // workingZips.push(nearbyZips[i]);
+                        workingZips.push(nearbyZips[i]);
                     }
                 }
             }catch(err){
@@ -101,13 +100,14 @@ exports.realTime = async (req,res) => {
         }
         await browser.close();
         if(workingZips.length > 0){
-            console.log(workingZips)
+            
+            
             alert(`There Are ${workingZips.length} working Zipcodes Taking Apointments within ${req.params.radius} miles of ${req.params.zip}`);
             await res.render('realTime', {workingZips});
         }
         else{
           alert(`There Are No Walgreens Taking Apointments within ${req.params.radius} miles of ${req.params.zip}`);
-          await res.render('realTime', {zipcodes: 'none'});
+          await res.render('realTime', {workingZips: 'none'});
         }
     
            
@@ -119,9 +119,9 @@ exports.realTime = async (req,res) => {
 
          
 }
-
+var testZips = ['12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898']
 exports.sendMail = (req,res) => {
-    sendEmail('eligfinkel@gmail.com', "60035");
+    sendEmail('eli2finkel@gmail.com', testZips);
 }
 
 /*
@@ -142,32 +142,12 @@ function getDist(zip){
 
 
 
-/*
-async function sendMessage (phone, zipcode){
-    const accountSid = 'ACe4bd948b994e6f4818ac7a6dd12bb32c';
-    const authToken = '9fc5aa06e51bf5bb3d810fd29e7669ce';
-    const client = require('twilio')(accountSid, authToken);
-    
-    client.messages
-      .create({
-         body: `Yay!! we found a vaccine at ${zipcode}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`,
-         from: '+14693366144',
-         to: `+1${phone}`
-       })
-      .then(message => console.log(message.sid));
-   
-  }
-      
-*/
-
-
-
   
 async function sendEmail(email, zipcodes){
     // declare vars,
     var zipcodeString = ""
     for(var i = 0; i < zipcodes.length; i++){
-        zipcodeString+=zipcodes[i] + ", ";
+        zipcodeString+=zipcodes[i] + ", \n";
     }
     let fromMail = 'vaccinehunteralert@gmail.com';
     let toMail = email;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+ 
     <title>Vaccine Hunter</title>
 
         <!-- Latest compiled and minified CSS -->
@@ -20,12 +20,16 @@
     <%-include('./partials/mainCss.ejs')%>
     <%-include('./partials/navCss.ejs')%>
     <script>      
-        function setParams(){
-            var zip = document.getElementById("zipcode").value;
-            var radius = document.getElementById("radius").value;
+        function cancelSearch(){
+            var email = document.getElementById("userEmail").value;
+            if(email == ""){
+                alert("Sorry! You entered incomplete info");
+            }
+            else{
+                console.log(email)
+                window.location.href = `/cancel/${email}`
+            }
            
-            window.location.href = `/realTime/${zip}/${radius}`
-            console.log(email);
         }
     </script>
 </head>
@@ -35,25 +39,21 @@
     <div class="bg text-center">
         <!--Div for Centered Text & Input-->
         <div class="centered">
-            <p class="firstLine"> R &nbsp; E &nbsp; A &nbsp; L &nbsp; . &nbsp; T &nbsp; I &nbsp; M &nbsp; E &nbsp;  </p>
-            <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
-            <p class="firstLine"> F &nbsp; I &nbsp; N &nbsp; D &nbsp; E &nbsp; R &nbsp;   </p>
-            <p class="secondLine">Check For Current Vaccines</p>
+          
+            <p class="firstLine">  C &nbsp; A &nbsp; N &nbsp; C &nbsp; E &nbsp; L &nbsp;</p>
+            <p class="firstLine"> S &nbsp; E &nbsp; A &nbsp; R &nbsp; C &nbsp; H &nbsp;   </p>
+            <p class="secondLine">Enter Email to Cancel a Previous Search</p>
             
-            <p> <input id = "zipcode" class="InputStyle" placeholder="Zip Code " style="font-family:Arial, FontAwesome" type="text"> </p>
-            <p> <input id = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) " style="font-family:Arial, FontAwesome" type="text"> </p>
+            <p> <input id = "userEmail" class="InputStyle" placeholder="email" style="font-family:Arial, FontAwesome" type="text"> </p>
+           
     
-            <button onclick = "setParams()" type="button" class="btn btn-secondary btn-lg btn-block">Start Searching</button>
-            <%for(var i = 0; i < workingZips.length; i++){%>
-            <p id = "zipcodes"> <%=workingZips[i]%> </p>
-            <%}%>
-
-      
+            <button onclick = "cancelSearch()" type="button" class="btn btn-secondary btn-lg btn-block">Cancel Search</button>
         </div>
 
-        
   
     </div>
+
+    
 
  
 </body>
