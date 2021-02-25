@@ -15,9 +15,9 @@ exports.runTest = async (req, res) => {
     var workingZips = [];
     console.log('Starting Test Soon');
     var jobName = req.params.email;
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
-        const nearestWorkingZip = '';
-        console.log("😀");
+    const job = schedule.scheduleJob(jobName, '*/30 * * * * *', async () => {
+        //const nearestWorkingZip = '';
+        console.log("Starting Job 🦺");
         (async () => { 
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
@@ -35,14 +35,15 @@ exports.runTest = async (req, res) => {
                         let value = await page.evaluate(el => el.textContent, element)
                         console.log(value);
                         if(value != "Appointments unavailable"){
-                            console.log("FOUND!!! 😀 😃 😄 ")
+                            console.log("FOUND!!!✔️")
                             console.log(`Go to ${nearbyZips[i]}`)
                             workingZips.push(nearbyZips);
                                                                                  
-                    }       
+                    }   
+                    //await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });    
                   }
                 }catch(err){
-                    console.log(err);
+                    console.log(`⚠️ ${err}`);
                 }  
             }
             if(workingZips.length > 0){
