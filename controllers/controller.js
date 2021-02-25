@@ -13,11 +13,11 @@ const { min } = require('moment-timezone');
 exports.runTest = async (req, res) => {
    // var testDist = getDist(61371);
     //console.log(testDist);
-   var workingZips = [];
+   /*var workingZips = [];
     console.log('Starting Test Soon Set to 30');
     var jobName = req.params.email;
     
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*2 * * * *', async () => {
         console.log("Starting Job 🦺");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -46,9 +46,9 @@ exports.runTest = async (req, res) => {
                     }catch(err){
                         console.log(`⚠️ ${err}`);
                     }  
-                }
+                }*/
 
-         
+         var workingZips = zipcodes.radius(req.params.zip, req.params.radius);
             var minValues = [];
             if(workingZips.length > 0){
                 for(let i = 0; i < 20; i++){
@@ -70,8 +70,8 @@ exports.runTest = async (req, res) => {
                 await sendEmail(req.params.email, minValues);   
             }   
             await browser.close();
-        })();
-    })
+        //})();
+   // })
     res.redirect('/');
 }
 
