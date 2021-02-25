@@ -7,16 +7,17 @@ const alert = require('alert');
 var CronJob = require('cron').CronJob;
 const axios = require('axios');
 const { table } = require('console');
+const { min } = require('moment-timezone');
 
 
 exports.runTest = async (req, res) => {
    // var testDist = getDist(61371);
     //console.log(testDist);
-    var workingZips = [];
-    console.log('Starting Test Soon');
+   var workingZips = [];
+    console.log('Starting Test Soon Set to 30');
     var jobName = req.params.email;
-    const job = schedule.scheduleJob(jobName, '*/30 * * * * *', async () => {
-        //const nearestWorkingZip = '';
+    
+    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("Starting Job 🦺");
         (async () => { 
             const browser = await puppeteer.launch();
@@ -39,17 +40,35 @@ exports.runTest = async (req, res) => {
                             console.log(`Go to ${nearbyZips[i]}`)
                             workingZips.push(nearbyZips);
                                                                                  
-                    }   
-                    //await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });    
-                  }
-                }catch(err){
-                    console.log(`⚠️ ${err}`);
-                }  
-            }
+                        }   
+                   
+                    }
+                    }catch(err){
+                        console.log(`⚠️ ${err}`);
+                    }  
+                }
+
+         
+            var minValues = [];
             if(workingZips.length > 0){
-                await sendEmail(req.params.email, workingZips);   
-            }
-            
+                for(let i = 0; i < 20; i++){
+                    var minValue = Number.MAX_VALUE;
+                    var closestZip = '00000';
+                    var closestIndex = 0;
+                    for(let j = 0; j < workingZips.length; j++){
+                        var currentValDist = zipcodes.distance(req.params.zip, workingZips[j]);
+                        if(currentValDist < minValue){
+                            minValue = currentValDist;  
+                            closestZip = workingZips[j];
+                            closestIndex = j;
+                        }
+                    }
+                    minValues.push(closestZip);
+                    console.log(minValue);
+                    workingZips.splice(closestIndex, 1);
+                }
+                await sendEmail(req.params.email, minValues);   
+            }   
             await browser.close();
         })();
     })
@@ -125,20 +144,12 @@ exports.sendMail = (req,res) => {
     sendEmail('eli2finkel@gmail.com', testZips);
 }
 
-/*
-function getDist(zip){
-    var reqUrl = `http://www.zipcodeapi.com/rest/szy97PMG6ZZEUf7f0Yvwsq1kurNz8szkKMaQOmoQGI5ZfHEFMp3vdpxlrHNS2AnX/distance.json/60035/${zip}/miles`;
 
-    axios.get(reqUrl)
-    .then(response => {
-        //console.log(response.data.url);
-        //console.log(response.data.explanation);
-        return JSON.parse(response).explanation;
-    })
-    .catch(error => {
-        console.log(error);
-    });
-}*/
+var apiKey = "JiTSowJGQ6ugvOglooK127JNOzOTzWhwpp8NtlkjLi9BEhd6JRKAKGMMmWVemWGg";
+function getDist(zip, userZip){
+    var dist = zipcodes.distance(parseInt(zip), parseInt(userZip));
+    return dist;
+}
 
 
 
