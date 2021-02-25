@@ -69,7 +69,7 @@ exports.runTest = async (req, res) => {
                 }
                 await sendEmail(req.params.email, minValues);   
             }   
-            await browser.close();
+            //await browser.close();
         //})();
    // })
     res.redirect('/');
