@@ -26,6 +26,7 @@ exports.runTest = async (req, res) => {
             const page = await browser.newPage();
             await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
             var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
+            var first = false;
             for(let i = 0; i < nearbyZips.length; i++){
                 try{
                     if(nearbyZips[i].length >= 5){
@@ -41,7 +42,10 @@ exports.runTest = async (req, res) => {
                             console.log("FOUND!!!✔️")
                             //console.log(`Go to ${nearbyZips[i]}`)
                             workingZips.push(nearbyZips[i]);
-                                                                                 
+                            if(first!=true){
+                                await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                                first = true;
+                            }
                         } 
                        
                     }
@@ -69,7 +73,8 @@ exports.runTest = async (req, res) => {
                     console.log(minValue);
                     workingZips.splice(closestIndex, 1);
                 }
-                await sendEmail(req.params.email, minValues);   
+                console.log(`Working Zips Array Length:    ${workingZips.length}`);
+                await sendEmail(req.params.email, minValues, workingZips.length);   
             
             }   
          
@@ -161,7 +166,7 @@ function getDist(zip, userZip){
 
 
   
-async function sendEmail(email, zipcodes){
+async function sendEmail(email, zipcodes, arrayLength){
     // declare vars,
     var zipcodeString = ""
     for(var i = 0; i < zipcodes.length; i++){
@@ -170,7 +175,7 @@ async function sendEmail(email, zipcodes){
     let fromMail = 'vaccinehunteralert@gmail.com';
     let toMail = `${email}, eligfinkel@gmail.com` ;
     let subject = `Vaccines`;
-    let text = `Yay!! we found a vaccines at ${zipcodeString}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
+    let text = `Yay!! we found a vaccines at ${zipcodeString}.  The array length was ${arrayLength}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',

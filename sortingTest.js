@@ -1,8 +1,8 @@
 var zipcodes = require('zipcodes');
 
-var workingZips = zipcodes.radius(60035, 30);
-console.log(workingZips)
-if(workingZips.length > 0){
+var workingZips = zipcodes.radius(60035, 100);
+console.log(workingZips.length)
+/*if(workingZips.length > 0){
     var minValues = [];
     for(let i = 0; i < 20; i++){
        // console.log('Loop' + i)
@@ -23,4 +23,4 @@ if(workingZips.length > 0){
     }
     //await sendEmail(req.params.email, minValues);   
     console.log(`Min values: ${minValues}`)
-}   
+}   */
