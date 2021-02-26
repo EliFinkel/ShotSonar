@@ -9,7 +9,7 @@ const axios = require('axios');
 const { table } = require('console');
 const { min } = require('moment-timezone');
 
-
+/*
 exports.runTest = async (req, res) => {
    // var testDist = getDist(61371);
     //console.log(testDist);
@@ -18,7 +18,7 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*2 * * * *', async () => {
         console.log("Starting Job 🦺");
         (async () => { 
             var workingZips = [];
@@ -26,68 +26,61 @@ exports.runTest = async (req, res) => {
             const page = await browser.newPage();
             await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
             var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
-            var first = false;
             for(let i = 0; i < nearbyZips.length; i++){
-                try{
-                    if(nearbyZips[i].length >= 5){
-                        console.log(nearbyZips[i]);
-                        await page.$eval('input[name=text]', nearbyZips[i]);
-                        //const form = await page.$('.btn');
-                        //await this.page.waitFor(2000);
-                       // await form.evaluate( form => form.click() );
-                        await page.click('.btn');
-                        await page.waitForSelector('p.fs16')
-                        let element = await page.$('p.fs16')
-                        let value = await page.evaluate(el => el.textContent, element)
-                        console.log(value);
-                        if(value != "Appointments unavailable"){
-                            console.log("FOUND!!!✔️")
-                            //console.log(`Go to ${nearbyZips[i]}`)
-                            workingZips.push(nearbyZips[i]);
-                            if(first!=true){
-                                await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-                                first = true;
-                            }
-                        } 
-                       
-                    }
-                }catch(err){
-                    console.log(`⚠️ ${err}`);
-                }  
-            }
-    
-            if(workingZips.length > 0){
-                var minValues = [];
-                for(let i = 0; i < 20; i++){
-                   // console.log('Loop' + i)
-                    var minValue = Number.MAX_VALUE;
-                    var closestZip;
-                    var closestIndex = 0;
-                    for(let j = 0; j < workingZips.length; j++){
-                        var currentValDist = zipcodes.distance(parseInt('60035'), parseInt(workingZips[j]));
-                        if(currentValDist < minValue){
-                            minValue = currentValDist;  
-                            closestZip = workingZips[j];
-                            closestIndex = j;
-                        }
-                    }
-                    minValues.push(closestZip);
-                    console.log(minValue);
-                    workingZips.splice(closestIndex, 1);
+                if(nearbyZips[i].length >= 5){
+                    console.log(nearbyZips[i]);
+                    await page.$eval('input[name=text]', nearbyZips[i]);
+                    //?const form = await page.$('.btn');
+                    //?await this.page.waitFor(2000);
+                    //?await form.evaluate( form => form.click() );
+                    await page.click('button.btn');
+                    await page.waitForSelector('p.fs16')
+                    let element = await page.$('p.fs16')
+                    let value = await page.evaluate(el => el.textContent, element)
+                    console.log(value);
+                    if(value != "Appointments unavailable"){
+                        console.log("FOUND!!!✔️")
+                        workingZips.push(nearbyZips[i]);
+                        
+                    } 
                 }
-                console.log(`Working Zips Array Length:    ${workingZips.length}`);
-                await sendEmail(req.params.email, minValues, workingZips.length);   
-            
-            }   
+            }
+            //!Sorting Algorithm Below
+            findMinZips(workingZips, req.params.email, req.params.zip);
+            //!End Sorting Algroithm   
             await page.close();
             await browser.close();
         })();
     })
     res.redirect('/');
+}*/
+
+
+async function findMinZips(workingZips, email, zip){
+    if(workingZips.length > 0){
+        var minValues = [];
+        for(let k = 0; k < 20; k++){
+            // console.log('Loop' + i)
+            var minValue = Number.MAX_VALUE;
+            var closestZip;
+            var closestIndex = 0;
+            for(let j = 0; j < workingZips.length; j++){
+                var currentValDist = zipcodes.distance(parseInt(zip), parseInt(workingZips[j]));
+                if(currentValDist < minValue){
+                    minValue = currentValDist;  
+                    closestZip = workingZips[j];
+                    closestIndex = j;
+                }
+            }
+            minValues.push(closestZip);
+            console.log(minValue);
+            workingZips.splice(closestIndex, 1);
+        }
+        console.log(`Working Zips Array Length:    ${workingZips.length}`);
+        await sendEmail(email, minValues, workingZips.length);   
+
+    }
 }
-
-
-
 
 
 exports.endSearch =  async (req,res) => {  
@@ -207,3 +200,37 @@ async function sendEmail(email, zipcodes, arrayLength){
   
   
   
+
+exports.runTest = async (req,res) => {
+    var jobName = req.params.email;
+    console.log("Starting Test")
+    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+        let workingZips = [];
+        (async () => { 
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+            var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
+            for(let i = 0; i < nearbyZips.length; i++){
+                try{
+                    if(nearbyZips[i].length >= 5){
+                        await page.$eval('input[name=text]', nearbyZips[i]);
+                        const form = await page.$('.btn');
+                        await form.evaluate( form => form.click());
+                        await page.waitForSelector('p.fs16')
+                        let element = await page.$('p.fs16')
+                        let value = await page.evaluate(el => el.textContent, element)
+                        console.log(value);
+                        if(value != "Appointments unavailable"){
+                            console.log("FOUND!!! 😀 😃 😄")
+                            workingZips.push(nearbyZips[i]);
+                        }
+                    }
+                }catch(err){
+                    console.log(err);
+                }
+            }
+            findMinZips(workingZips, req.params.email, req.params.zip);
+        })();
+    });
+}
