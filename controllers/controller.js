@@ -32,8 +32,10 @@ exports.runTest = async (req, res) => {
                     if(nearbyZips[i].length >= 5){
                         console.log(nearbyZips[i]);
                         await page.$eval('input[name=text]', nearbyZips[i]);
-                        const form = await page.$('.btn');
-                        await form.evaluate( form => form.click() );
+                        //const form = await page.$('.btn');
+                        //await this.page.waitFor(2000);
+                       // await form.evaluate( form => form.click() );
+                        await page.click('.btn');
                         await page.waitForSelector('p.fs16')
                         let element = await page.$('p.fs16')
                         let value = await page.evaluate(el => el.textContent, element)
@@ -77,7 +79,7 @@ exports.runTest = async (req, res) => {
                 await sendEmail(req.params.email, minValues, workingZips.length);   
             
             }   
-         
+            await page.close();
             await browser.close();
         })();
     })
