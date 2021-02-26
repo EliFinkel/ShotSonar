@@ -13,13 +13,15 @@ const { min } = require('moment-timezone');
 exports.runTest = async (req, res) => {
    // var testDist = getDist(61371);
     //console.log(testDist);
-    var workingZips = [];
+    
     console.log('Starting Test Soon');
     var jobName = req.params.email;
+
     
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("Starting Job 🦺");
         (async () => { 
+            var workingZips = [];
             const browser = await puppeteer.launch();
             const page = await browser.newPage();
             await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
@@ -37,26 +39,26 @@ exports.runTest = async (req, res) => {
                         console.log(value);
                         if(value != "Appointments unavailable"){
                             console.log("FOUND!!!✔️")
-                            console.log(`Go to ${nearbyZips[i]}`)
-                            workingZips.push(nearbyZips);
+                            //console.log(`Go to ${nearbyZips[i]}`)
+                            workingZips.push(nearbyZips[i]);
                                                                                  
-                        }   
-                   
+                        } 
+                       
                     }
-                    }catch(err){
-                        console.log(`⚠️ ${err}`);
-                    }  
-                }
-            //?For testing the lop only
-            //var workingZips = zipcodes.radius(req.params.zip, req.params.radius);
-            var minValues = [];
+                }catch(err){
+                    console.log(`⚠️ ${err}`);
+                }  
+            }
+    
             if(workingZips.length > 0){
+                var minValues = [];
                 for(let i = 0; i < 20; i++){
+                   // console.log('Loop' + i)
                     var minValue = Number.MAX_VALUE;
-                    var closestZip = '00000';
+                    var closestZip;
                     var closestIndex = 0;
                     for(let j = 0; j < workingZips.length; j++){
-                        var currentValDist = zipcodes.distance(req.params.zip, workingZips[j]);
+                        var currentValDist = zipcodes.distance(parseInt('60035'), parseInt(workingZips[j]));
                         if(currentValDist < minValue){
                             minValue = currentValDist;  
                             closestZip = workingZips[j];
@@ -68,12 +70,16 @@ exports.runTest = async (req, res) => {
                     workingZips.splice(closestIndex, 1);
                 }
                 await sendEmail(req.params.email, minValues);   
+            
             }   
+         
             await browser.close();
         })();
     })
     res.redirect('/');
 }
+
+
 
 
 
