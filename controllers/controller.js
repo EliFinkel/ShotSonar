@@ -21,27 +21,24 @@ exports.runTest = async (req, res) => {
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
-        /*const browser = await puppeteer.launch({
+        const browser = await puppeteer.launch({
             headless: false,
-            //slowMo: 10,
-            devtools: false,
-        });*/
-        const browser = await puppeteer.launch();
+        });
+        //const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
         var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
         for(let i = 0; i < nearbyZips.length; i++){
             if(nearbyZips[i].length >= 5){
                 console.log(nearbyZips[i]);
-                await page.evaluate( () => document.getElementById("inputLocation").value = "")
-                    //*let searchInput = await page.$('input#inputLocation');
-                    //*await searchInput.click({clickCount: 3});
-                    //*await searchInput.press('Backspace'); 
-                await page.type('input#inputLocation', nearbyZips[i]);
-                //await page.$eval('input#inputLocation', nearbyZips[i]);
+               // await page.evaluate( () => document.getElementById("inputLocation").value = "")
+                //await page.type('input#inputLocation', nearbyZips[i]);
+
+                await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
+
+
                 await page.click('button[data-reactid="16"]');
-            
-                await page.waitForSelector('p.fs16');
+                await page.waitForSelector('p.fs16', {  visible: true , timeout: 0 });
                 let element = await page.$('p.fs16');
                 let value = await page.evaluate(el => el.textContent, element); 
                 console.log(value);
@@ -60,6 +57,9 @@ exports.runTest = async (req, res) => {
     })
     res.redirect('/');
 }
+
+
+
 
 
 async function findMinZips(workingZips, email, zip){
