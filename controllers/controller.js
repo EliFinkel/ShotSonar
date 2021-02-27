@@ -42,7 +42,7 @@ exports.runTest = async (req, res) => {
                     nearbyZips.push(nearbyZips[i]);
                     continue;
                 }
-            
+             
 
                 await page.waitForSelector('p.fs16', {  visible: true , timeout: 0 });
                 let element = await page.$('p.fs16');
