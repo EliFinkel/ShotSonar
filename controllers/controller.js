@@ -39,6 +39,7 @@ exports.runTest = async (req, res) => {
                 let errorMsg = await page.$('span.input__error-text > strong');
                 if(errorMsg != undefined){
                     await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                    nearbyZips.push(nearbyZips[i]);
                     continue;
                 }
             
