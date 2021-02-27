@@ -23,6 +23,7 @@ exports.runTest = async (req, res) => {
         var workingZips = [];
         const browser = await puppeteer.launch({
             headless: false,
+            sloMo: 250
         });
         //const browser = await puppeteer.launch();
         const page = await browser.newPage();
@@ -33,11 +34,15 @@ exports.runTest = async (req, res) => {
                 console.log(nearbyZips[i]);
                // await page.evaluate( () => document.getElementById("inputLocation").value = "")
                 //await page.type('input#inputLocation', nearbyZips[i]);
-
                 await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
-
-
                 await page.click('button[data-reactid="16"]');
+                let errorMsg = await page.$('span.input__error-text > strong');
+                if(errorMsg != undefined){
+                    await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                    continue;
+                }
+            
+
                 await page.waitForSelector('p.fs16', {  visible: true , timeout: 0 });
                 let element = await page.$('p.fs16');
                 let value = await page.evaluate(el => el.textContent, element); 
