@@ -18,19 +18,18 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/3 * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
             headless: false,
-            sloMo: 250
         });
         //const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
         var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
         for(let i = 0; i < nearbyZips.length; i++){
-            if(nearbyZips[i].length >= 5){
+            if(nearbyZips[i].length >= 5 && nearbyZips[i].charAt(0) == req.params.zip.charAt(0)){
                 console.log(nearbyZips[i]);
                // await page.evaluate( () => document.getElementById("inputLocation").value = "")
                 //await page.type('input#inputLocation', nearbyZips[i]);
@@ -39,7 +38,7 @@ exports.runTest = async (req, res) => {
                 let errorMsg = await page.$('span.input__error-text > strong');
                 if(errorMsg != undefined){
                     await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-                    nearbyZips.push(nearbyZips[i]);
+                    nearbyZips.push(nearbyZips[i]);                
                     continue;
                 }
              
@@ -55,7 +54,7 @@ exports.runTest = async (req, res) => {
             }
         }
         //Sorting Algorithm Below
-        findMinZips(workingZips, req.params.email, req.params.zip);
+        findMinZips(workingZips, req.params.email, req.params.zip, nearbyZips);
         
         await page.close();
         await browser.close();
@@ -68,7 +67,8 @@ exports.runTest = async (req, res) => {
 
 
 
-async function findMinZips(workingZips, email, zip){
+async function findMinZips(workingZips, email, zip, nearbyZips){
+   // if(workingZips.length > (.1 * nearbyZips.length)){
     if(workingZips.length > 0){
         var minValues = [];
         for(let k = 0; k < 20; k++){
@@ -117,7 +117,7 @@ exports.realTime = async (req,res) => {
         var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
         for(let i = 0; i < nearbyZips.length; i++){
             try{
-                if(nearbyZips[i].length >= 5){
+                if(nearbyZips[i].length >= 5 && nearbyZips[i].charAt(0) == '6'){
                     //console.log(nearbyZips[i]);
                     await page.$eval('input[name=text]', nearbyZips[i]);
                     const form = await page.$('.btn');
@@ -177,12 +177,12 @@ async function sendEmail(email, zipcodes, arrayLength){
     // declare vars,
     var zipcodeString = ""
     for(var i = 0; i < zipcodes.length; i++){
-        zipcodeString+=zipcodes[i] + ", \n";
+        zipcodeString+="\n" + zipcodes[i] + ", \n";
     }
     let fromMail = 'vaccinehunteralert@gmail.com';
     let toMail = `${email}, eligfinkel@gmail.com` ;
     let subject = `Vaccines`;
-    let text = `Yay!! we found a vaccines at ${zipcodeString}.  The array length was ${arrayLength}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
+    let text = `Yay!! we found a vaccines at ${zipcodeString}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
