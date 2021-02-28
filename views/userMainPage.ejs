@@ -56,8 +56,9 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Zipcode</th>
-                    <th>Radius</th>
+                    <th>Radius(Miles)</th>
                     <th>Email</th>
+                    <th>Status</th>
                     <th>Start</th>
                     <th>Stop</th>
                 </tr>
@@ -70,6 +71,7 @@
                         <td id= "zipcode"><%=user.zipcode%></td>
                         <td id = "radius"><%=user.radius%></td>
                         <td id = "email"><%=user.email%></td>
+                        <td id = "email"><%=user.status%></td>
                         <td>
                             <a href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'><em>Start Search</em></a> 
                         </td>

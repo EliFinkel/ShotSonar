@@ -8,7 +8,7 @@ var nodemailer = require('nodemailer');
 const controller = require('./controllers/controller.js');
 const routes = require('./routes/router.js');
 const bodyParser = require('body-parser');
-
+const userModel = require('./models/user.js');
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +42,15 @@ let port = process.env.PORT || 8080;
 app.use(express.static(__dirname));
 app.listen(port, () => {
     console.log("Server Started");
+    userModel.updateMany(
+      {}, // Filter
+      {$set: {"status": 'stopped'}}, // Update
+  ).then((obj) => {
+   console.log('All Searches Stoped');
+  })
+  .catch((err) => {
+      console.log('Error: ' + err);
+  })
   
 })
 

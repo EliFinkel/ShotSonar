@@ -11,7 +11,10 @@ let userSchema = new Schema({
 
     radius: {type: String, default: '50'},
 
-    email: {type: String}  
+    email: {type: String},
+    
+    status: {type: String, default: 'stopped'}
+
 });
 
 

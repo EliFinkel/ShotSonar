@@ -8,12 +8,24 @@ var CronJob = require('cron').CronJob;
 const axios = require('axios');
 const { table } = require('console');
 const { min } = require('moment-timezone');
+const userModel = require('../models/user.js');
+
 
 
 exports.runTest = async (req, res) => {
-   // var testDist = getDist(61371);
-    //console.log(testDist);
-    
+        userModel.updateOne(
+                  { "email": req.params.email, "zipcode": req.params.zip}, // Filter
+                  {$set: {"status": 'running'}}, // Update
+             ).then((obj) => {
+               console.log('Updated');
+         })
+        .catch((err) => {
+           console.log('Error: ' + err);
+      })
+
+
+
+
     console.log(`Starting Test For ${req.params.email}`);
     var jobName = req.params.email;
 
@@ -99,6 +111,15 @@ exports.endSearch =  async (req,res) => {
         let currentJob = schedule.scheduledJobs[req.params.email];
         if(currentJob != null){
             await currentJob.cancel();
+            userModel.updateOne(
+                { "email": req.params.email}, // Filter
+                {$set: {"status": 'stopped'}}, // Update
+            ).then((obj) => {
+             console.log('Updated');
+            })
+            .catch((err) => {
+                console.log('Error: ' + err);
+            })
 
         }
         

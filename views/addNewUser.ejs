@@ -20,7 +20,23 @@
     <%-include('./partials/mainCss.ejs')%>
     <%-include('./partials/navCss.ejs')%>
 
-  
+    <script>
+
+        function checkParams(){
+            var firstName = document.getElementById("firstName").value;
+            var zip = document.getElementById("zipcode").value;
+            var radius = document.getElementById("radius").value;
+            var email = document.getElementById("email").value;
+            if(zip == "" || radius == "" || email == "" || firstName == ""){
+                alert("Sorry! You entered incomplete info");
+                window.location.href = `/addUser`;
+            }
+            else{
+                window.location.href = `/`;
+            }
+        }
+
+    </script>
 </head>
 <body>
     <!--Div for Background-->
@@ -37,15 +53,9 @@
                 <p> <input id = "zipcode"  name = "zipcode" for = "zipcode" class="InputStyle" placeholder="Zip Code " style="font-family:Arial, FontAwesome" type="text"> </p>
                 <p> <input id = "radius" name = "radius" for = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) " value = "50" style="font-family:Arial, FontAwesome" type="text" readonly> </p>
                 <p> <input id = "email" name = "email" for = "email" class="InputStyle" placeholder="Email(Check Often) " style="font-family:Arial, FontAwesome" type="text"> </p>
-                <input type="submit" id = "createUserBtn">
+                <input type="submit" onclick = "checkParams()" id = "createUserBtn">
             </form>
-           
-       
         </div>
-
-    
-    <!--Div for bottom Icons-->
-    
     </div>
 
 
