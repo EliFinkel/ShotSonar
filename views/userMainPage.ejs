@@ -72,11 +72,13 @@
                         <td id = "radius"><%=user.radius%></td>
                         <td id = "email"><%=user.email%></td>
                         <td id = "email"><%=user.status%></td>
-                        <td>
+                        <!--<td>
                             <a href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'><em>Start Search</em></a> 
-                        </td>
+                        </td>-->
     
-                        <td>  <a href='/cancel/<%=user.email%>'><em>Stop Search</em></a></td>
+                        <!--<td>  <a href='/cancel/<%=user.email%>'><em>Stop Search</em></a></td>-->
+                        <td><button onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" id ="startBtn" class = "round-btn">Start</button></td>
+                        <td><button onclick="window.location.href='/cancel/<%=user.email%>'" id ="stopBtn" class = "round-btn">Stop</button></td>
                     </tr>
                 <% })%> 
             </tbody>
