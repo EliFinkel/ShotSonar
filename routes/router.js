@@ -15,7 +15,7 @@ router.get('/sendEmail', controller.sendMail);
 router.get('/realTime', (req,res) => {res.render('realTimeInput.ejs');}) 
 
 router.get('/cancel/:email', controller.endSearch);
-
+router.get('/delete/:id', userController.deleteUser);
 
 router.get('/addUser', (req,res) => { res.render('addNewUser')});
 router.post('/addUser', userController.createNewUser);

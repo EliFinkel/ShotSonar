@@ -61,6 +61,7 @@
                         <th>Status</th>
                         <th>Start</th>
                         <th>Stop</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +77,7 @@
                                 <td id = "email"><%=user.status%></td>
                                 <td><button onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" id ="startBtn" class = "round-btn">Start</button></td>
                                 <td><button onclick="window.location.href='/cancel/<%=user.email%>'" id ="stopBtn" class = "round-btn">Stop</button></td>
+                                <td><a href="/delete/<%=user.id%>">Delete</a></td>
                             </tr>
                         <% })%> 
                     </tr>

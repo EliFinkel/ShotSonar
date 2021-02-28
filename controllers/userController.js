@@ -30,3 +30,12 @@ exports.getllUsers = async (req,res) => {
 }
 
 
+exports.deleteUser = (req,res, next) => {
+    userModel.findByIdAndRemove(req.params.id, function (err) {
+        if (err) return next(err);
+
+        //res.send('Deleted successfully!');
+        res.redirect("/");
+
+    })
+}
