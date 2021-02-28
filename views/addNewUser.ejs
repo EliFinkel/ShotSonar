@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </style>
+    <title>Vaccine Hunter</title>
+
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <%-include('./partials/mainCss.ejs')%>
+    <%-include('./partials/navCss.ejs')%>
+
+  
+</head>
+<body>
+    <!--Div for Background-->
+    <%-include('./partials/nav.ejs')%>
+    <div class="bg text-center">
+        <!--Div for Centered Text & Input-->
+        <div class="centered">
+            <p class="firstLine"> A &nbsp; D &nbsp; D &nbsp;   &nbsp; N &nbsp; E &nbsp; W &nbsp;   </p>
+            <p class="firstLine"> U &nbsp; S &nbsp; E &nbsp; R &nbsp;</p>
+            <p class="secondLine">Enter Information Below to Add a New User</p>
+            <form action="/addUser" method="POST">
+                <p> <input id = "firstName" name = "firstName" for = "firstName" class="InputStyle" placeholder="First Name" style="font-family:Arial, FontAwesome" type="text"> </p>
+                <p> <input id = "lastName" name = "lastName" for = "lastName" class="InputStyle" placeholder="lastName" style="font-family:Arial, FontAwesome" type="text"> </p>
+                <p> <input id = "zipcode"  name = "zipcode" for = "zipcode" class="InputStyle" placeholder="Zip Code " style="font-family:Arial, FontAwesome" type="text"> </p>
+                <p> <input id = "radius" name = "radius" for = "radius" class="InputStyle" placeholder="Radius(How far are you willing to drive?) " value = "50" style="font-family:Arial, FontAwesome" type="text" readonly> </p>
+                <p> <input id = "email" name = "email" for = "email" class="InputStyle" placeholder="Email(Check Often) " style="font-family:Arial, FontAwesome" type="text"> </p>
+                <input type="submit" id = "createUserBtn">
+            </form>
+           
+       
+        </div>
+
+    
+    <!--Div for bottom Icons-->
+    
+    </div>
+
+
+
+</body>
+</html>

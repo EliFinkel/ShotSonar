@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    </style>
+    <title>Vaccine Hunter</title>
+
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+    <%-include('./partials/mainCss.ejs')%>
+    <%-include('./partials/navCss.ejs')%>
+
+    <script>      
+         function setParams(){
+            var zip = document.getElementById("zipcode").value;
+            var radius = document.getElementById("radius").value;
+            var email = document.getElementById("email").value;
+           
+            if(zip == "" || radius == "" || email == ""){
+                alert("Sorry! You entered incomplete info");
+            }
+            else{
+                window.location.href = `/test/${zip}/${radius}/${email}`
+                console.log(email);
+            }
+          
+        }
+
+       
+    </script>
+</head>
+<body>
+    <!--Div for Background-->
+    <%-include('./partials/nav.ejs')%>
+    <div class="bg text-center">
+        <!--Div for Centered Text & Input-->
+        <div class="centered">
+            <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
+            <p class="firstLine"> H &nbsp; U &nbsp; N &nbsp; T &nbsp; E &nbsp; R &nbsp;   </p>
+            <p class="secondLine">The Easiest Way To Get Vaccinated</p>
+            
+
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Zipcode</th>
+                    <th>Radius</th>
+                    <th>Email</th>
+                    <th>Start</th>
+                    <th>Stop</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <%users.forEach((user)=> {%>
+                    <tr>
+                        <td id = "firstName"><%=user.firstName%></td>
+                        <td id = "lastName"><%=user.lastName%></td>
+                        <td id= "zipcode"><%=user.zipcode%></td>
+                        <td id = "radius"><%=user.radius%></td>
+                        <td id = "email"><%=user.email%></td>
+                        <td>
+                            <a href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'><em>Start Search</em></a> 
+                        </td>
+    
+                        <td>  <a href='/cancel/<%=user.email%>'><em>Stop Search</em></a></td>
+                    </tr>
+                <% })%> 
+            </tbody>
+            </table>
+            <button type="button" onclick="window.location.href='/addUser'" class="btn btn-secondary btn-sm">Add New User</button>
+        
+          
+        </div>
+      
+        
+    
+    </div>
+
+
+
+</body>
+</html>
