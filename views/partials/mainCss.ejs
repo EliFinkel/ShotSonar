@@ -67,8 +67,10 @@
     .secondLine {
         font-weight: 350;
         font-size: 15px;
-        margin-bottom: 10%;
-        color: white
+   
+        color: white;
+      
+       
     }
     
     .firstLine {
@@ -90,7 +92,14 @@
 
     table, tr, td, th, h2{
         color:white;
+       
+        text-align:left;
+     
         /*font-family: 'Roboto Condensed', sans-serif;*/
+    }
+
+    table{
+        width:1500px;
     }
 
     #item{
@@ -121,9 +130,9 @@ button{
 
 
 .round-btn{
-    border-radius: 50%;
-    height:70px;
-    width:70px;
+    border-radius: 10%;
+    height:50px;
+    width:100px;
     color:black;
     border:none;
 }
@@ -136,6 +145,46 @@ button{
 #startBtn{
     background-color: green;
 }
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(odd) {
+    background-color: #00987a26;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+
+
+
 
 
 </style>

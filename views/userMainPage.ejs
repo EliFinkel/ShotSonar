@@ -48,42 +48,42 @@
             <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
             <p class="firstLine"> H &nbsp; U &nbsp; N &nbsp; T &nbsp; E &nbsp; R &nbsp;   </p>
             <p class="secondLine">The Easiest Way To Get Vaccinated</p>
-            
+    
 
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="styled-table">
                 <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Zipcode</th>
-                    <th>Radius(Miles)</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Start</th>
-                    <th>Stop</th>
-                </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Zipcode</th>
+                        <th>Radius(Miles)</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Start</th>
+                        <th>Stop</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <%users.forEach((user)=> {%>
-                    <tr>
-                        <td id = "firstName"><%=user.firstName%></td>
-                        <td id = "lastName"><%=user.lastName%></td>
-                        <td id= "zipcode"><%=user.zipcode%></td>
-                        <td id = "radius"><%=user.radius%></td>
-                        <td id = "email"><%=user.email%></td>
-                        <td id = "email"><%=user.status%></td>
-                        <!--<td>
-                            <a href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'><em>Start Search</em></a> 
-                        </td>-->
-    
-                        <!--<td>  <a href='/cancel/<%=user.email%>'><em>Stop Search</em></a></td>-->
-                        <td><button onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" id ="startBtn" class = "round-btn">Start</button></td>
-                        <td><button onclick="window.location.href='/cancel/<%=user.email%>'" id ="stopBtn" class = "round-btn">Stop</button></td>
+            
+                    <tr class="active-row">
+                        <%users.forEach((user)=> {%>
+                            <tr>
+                                <td id = "firstName"><%=user.firstName%></td>
+                                <td id = "lastName"><%=user.lastName%></td>
+                                <td id= "zipcode"><%=user.zipcode%></td>
+                                <td id = "radius"><%=user.radius%></td>
+                                <td id = "email"><%=user.email%></td>
+                                <td id = "email"><%=user.status%></td>
+                                <td><button onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" id ="startBtn" class = "round-btn">Start</button></td>
+                                <td><button onclick="window.location.href='/cancel/<%=user.email%>'" id ="stopBtn" class = "round-btn">Stop</button></td>
+                            </tr>
+                        <% })%> 
                     </tr>
-                <% })%> 
-            </tbody>
+                    <!-- and so on... -->
+                </tbody>
             </table>
-            <button type="button" onclick="window.location.href='/addUser'" class="btn btn-secondary btn-sm">Add New User</button>
+
+            <button type="button" onclick="window.location.href='/addUser'" id = "submitBtn">Add New User</button>
         
           
         </div>
