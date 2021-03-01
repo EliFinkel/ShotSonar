@@ -199,7 +199,7 @@ async function sendEmail(email, zipcodes, arrayLength){
         zipcodeString+="\n" + zipcodes[i] + ", \n";
     }
     let fromMail = 'vaccinehunteralert@gmail.com';
-    let toMail = `${email}, eligfinkel@gmail.com` ;
+    let toMail = `${email}` ;
     let subject = `Vaccines`;
     let text = `Yay!! we found a vaccines at ${zipcodeString}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
 
