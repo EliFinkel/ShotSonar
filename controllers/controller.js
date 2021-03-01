@@ -17,7 +17,7 @@ exports.runTest = async (req, res) => {
                   { "email": req.params.email, "zipcode": req.params.zip}, // Filter
                   {$set: {"status": 'running'}}, // Update
              ).then((obj) => {
-               console.log('Updated');
+               console.log('Status set to running');
          })
         .catch((err) => {
            console.log('Error: ' + err);
@@ -30,7 +30,7 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/3 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/1 * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
@@ -115,16 +115,17 @@ exports.endSearch =  async (req,res) => {
                 { "email": req.params.email}, // Filter
                 {$set: {"status": 'stopped'}}, // Update
             ).then((obj) => {
-             console.log('Updated');
+             console.log('Status Set to Stopped');
             })
             .catch((err) => {
                 console.log('Error: ' + err);
             })
 
+           // res.redirect('/');
         }
-        
-        console.log(`[-] ${req.params.email}'s search was canceled`);
         res.redirect('/');
+        console.log(`[-] ${req.params.email}'s search was canceled`);
+        
 }
 
 
