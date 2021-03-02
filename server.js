@@ -22,12 +22,11 @@ app.use(bodyParser.urlencoded({
     extended: true
   }));
 
-app.use('/', routes);
+app.use('/', routes); 
 
 // Set up mongoose connection
 const mongoose = require('mongoose');
 
-//mongoose.connect('mongodb+srv://eli:eli16821@card-qxsw8.mongodb.net/Tasks?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true  })
 mongoose.connect('mongodb+srv://admin:adminPass@users.gkmdn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true  })
 mongoose.Promise = global.Promise;
 
