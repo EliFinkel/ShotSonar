@@ -111,7 +111,7 @@ exports.endSearch =  async (req,res) => {
         let currentJob = schedule.scheduledJobs[req.params.email];
         if(currentJob != null){
             await currentJob.cancel();
-            userModel.updateOne(
+            await userModel.updateOne(
                 { "email": req.params.email}, // Filter
                 {$set: {"status": 'stopped'}}, // Update
             ).then((obj) => {
