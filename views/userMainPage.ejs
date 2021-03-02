@@ -10,7 +10,7 @@
 
         <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -45,12 +45,10 @@
     <div class="bg text-center">
         <!--Div for Centered Text & Input-->
         <div class="centered">
-            <p class="firstLine"> V &nbsp; A &nbsp; C &nbsp; C &nbsp; I &nbsp; N &nbsp; E &nbsp;   </p>
-            <p class="firstLine"> H &nbsp; U &nbsp; N &nbsp; T &nbsp; E &nbsp; R &nbsp;   </p>
-            <p class="secondLine">The Easiest Way To Get Vaccinated</p>
+            <%-include('./partials/title.ejs')%>
     
 
-            <table class="styled-table">
+            <table class="styled-table" >
                 <thead>
                     <tr>
                         <th>First Name</th>
@@ -75,14 +73,13 @@
                                 <td id = "radius"><%=user.radius%></td>
                                 <td id = "email"><%=user.email%></td>
                                 <td id = "email"><%=user.status%></td>
-                                <!--<td><button onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" id ="startBtn" class = "round-btn">Start</button></td>-->
-                                <!--<td><button onclick="window.location.href='/cancel/<%=user.email%>'" id ="stopBtn" class = "round-btn">Stop</button></td>-->
                                 <td><div onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" class="box-4">
                                     <div class="btn btn-three">
                                       <span>Start</span>
                                     </div>
                                   </div>
                                 </td>
+                               
                                 <td><div onclick="window.location.href='/cancel/<%=user.email%>'" class="box-3">
                                     <div class="btn btn-three">
                                       <span>Stop</span>
