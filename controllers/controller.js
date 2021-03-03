@@ -30,29 +30,41 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/10 * * * * *', async () => {
-        console.log("Starting Job 🦺");
+    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+        
+       console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: false,
         });
-        //const browser = await puppeteer.launch();
         const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/90.0.4403.0 Safari/537.36');
+        
         await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
         await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
         await page.waitForNavigation();
+       /* try{
+            await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+        }
+        catch(err){
+            console.log('Error: ' + err)
+        }*/
+        
         
         var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
         for(let i = 0; i < nearbyZips.length; i++){
             if(nearbyZips[i].length >= 5 && nearbyZips[i].charAt(0) == req.params.zip.charAt(0)){
                 console.log(nearbyZips[i]);
-               // await page.evaluate( () => document.getElementById("inputLocation").value = "")
-                //await page.type('input#inputLocation', nearbyZips[i]);
+              
                 await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
                 await page.click('button[data-reactid="16"]');
                 let errorMsg = await page.$('span.input__error-text > strong');
                 if(errorMsg != undefined){
-                    await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                    //await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                    await page.goBack();
+                    await page.waitForNavigation()
+                    await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
+                    await page.waitForNavigation();
                     nearbyZips.push(nearbyZips[i]);                
                     continue;
                 }
