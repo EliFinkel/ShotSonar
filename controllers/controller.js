@@ -30,11 +30,11 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/3 * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
         });
         //const browser = await puppeteer.launch();
         const page = await browser.newPage();
