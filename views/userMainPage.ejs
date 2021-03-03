@@ -20,24 +20,6 @@
     <%-include('./partials/mainCss.ejs')%>
     <%-include('./partials/navCss.ejs')%>
 
-    <script>      
-         function setParams(){
-            var zip = document.getElementById("zipcode").value;
-            var radius = document.getElementById("radius").value;
-            var email = document.getElementById("email").value;
-           
-            if(zip == "" || radius == "" || email == ""){
-                alert("Sorry! You entered incomplete info");
-            }
-            else{
-                window.location.href = `/test/${zip}/${radius}/${email}`
-                console.log(email);
-            }
-          
-        }
-
-       
-    </script>
 </head>
 <body>
     <!--Div for Background-->
@@ -76,6 +58,13 @@
                                 <td><div onclick="window.location.href='/test/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" class="box-4">
                                     <div class="btn btn-three">
                                       <span>Start</span>
+                                    </div>
+                                  </div>
+
+
+                                  <div onclick="window.location.href='/stealth/<%=user.zipcode%>/<%=user.radius%>/<%=user.email%>'" class="box-4">
+                                    <div class="btn btn-three">
+                                      <span>Stealth</span>
                                     </div>
                                   </div>
                                 </td>
