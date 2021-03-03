@@ -30,7 +30,7 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/3 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
@@ -111,7 +111,7 @@ exports.endSearch =  async (req,res) => {
         let currentJob = schedule.scheduledJobs[req.params.email];
         if(currentJob != null){
             await currentJob.cancel();
-            userModel.updateOne(
+            await userModel.updateOne(
                 { "email": req.params.email}, // Filter
                 {$set: {"status": 'stopped'}}, // Update
             ).then((obj) => {
@@ -179,7 +179,7 @@ exports.realTime = async (req,res) => {
 
 var testZips = ['3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898','12345', '3345', '88898']
 exports.sendMail = (req,res) => {
-    sendEmail('eli2finkel@gmail.com', testZips);
+    sendEmail('shotsonar@gmail.com', testZips);
 }
 
 
@@ -199,17 +199,17 @@ async function sendEmail(email, zipcodes, arrayLength){
     for(var i = 0; i < zipcodes.length; i++){
         zipcodeString+="\n" + zipcodes[i] + ", \n";
     }
-    let fromMail = 'vaccinehunteralert@gmail.com';
+    let fromMail = 'ShotSonar@gmail.com';
     let toMail = `${email}` ;
     let subject = `Vaccines`;
-    let text = `Yay!! we found a vaccines at ${zipcodeString}.  Please hurry as appointment fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
+    let text = `Yay!! We found vaccine appointments at ${zipcodeString}.  Please hurry as appointments fill up fast. Go to https://www.walgreens.com/findcare/vaccination/covid-19/location-screening`
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         //pool: true,
         auth: {
             user: fromMail,
-            pass: 'vaccineHunter123'
+            pass: 'shotSonar@123'
         }
     });
     let mailOptions = {
