@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     </style>
-    <title>Vaccine Hunter</title>
+    <title>Shot Sonar - Add User</title>
 
         <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -43,7 +43,7 @@
     <%-include('./partials/nav.ejs')%>
     <div class="bg text-center">
         <!--Div for Centered Text & Input-->
-        <div class="centered">
+        <div class="centered" id = "userForm">
             <p class="firstLine"> A &nbsp; D &nbsp; D &nbsp;   &nbsp;  U &nbsp; S &nbsp; E &nbsp; R &nbsp;</p>
             <form autocomplete="off" action="/addUser" method="POST" >
                 <p> <input id = "firstName" name = "firstName" for = "firstName" class="InputStyle" placeholder="First Name" style="font-family:Arial, FontAwesome" type="text" > </p>
