@@ -30,7 +30,7 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/3 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/10 * * * * *', async () => {
         console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
@@ -38,7 +38,10 @@ exports.runTest = async (req, res) => {
         });
         //const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+        await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
+        await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
+        await page.waitForNavigation();
+        
         var nearbyZips = zipcodes.radius(req.params.zip, req.params.radius);
         for(let i = 0; i < nearbyZips.length; i++){
             if(nearbyZips[i].length >= 5 && nearbyZips[i].charAt(0) == req.params.zip.charAt(0)){
