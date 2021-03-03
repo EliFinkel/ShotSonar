@@ -3,14 +3,14 @@ const router = express.Router();
 const controller = require('../controllers/controller.js');
 const userController = require('../controllers/userController.js');
 
-
+const stealthController = require('../controllers/stealthController');
 router.get('/test/:zip/:radius/:email/', controller.runTest);
 
 
 router.get('/realTime/:zip/:radius', controller.realTime);
 
 router.get('/sendEmail', controller.sendMail); 
-
+router.get('/stealth', stealthController.stealthTest);
 
 router.get('/realTime', (req,res) => {res.render('realTimeInput.ejs');}) 
 
