@@ -7,6 +7,7 @@ const stealthController = require('../controllers/stealthController');
 router.get('/test/:zip/:radius/:email/', controller.runTest);
 
 
+
 router.get('/realTime/:zip/:radius', controller.realTime);
 
 router.get('/sendEmail', controller.sendMail); 

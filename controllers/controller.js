@@ -31,20 +31,19 @@ exports.runTest = async (req, res) => {
 
     
     const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
-        
        console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
             headless: false,
         });
         const page = await browser.newPage();
-        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/90.0.4403.0 Safari/537.36');
-        /*
+        
+        
         await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
         await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
         await page.waitForNavigation();
-       */
-        await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+       
+        //await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
        
         
         
@@ -57,11 +56,11 @@ exports.runTest = async (req, res) => {
                 await page.click('button[data-reactid="16"]');
                 let errorMsg = await page.$('span.input__error-text > strong');
                 if(errorMsg != undefined){
-                    await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-                    /*await page.goBack();
+                    //await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                    await page.goBack();
                     await page.waitForNavigation()
                     await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
-                    await page.waitForNavigation();*/
+                    await page.waitForNavigation();
                     nearbyZips.push(nearbyZips[i]);                
                     continue;
                 }
