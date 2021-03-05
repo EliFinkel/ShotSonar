@@ -9,6 +9,7 @@ const axios = require('axios');
 const { table } = require('console');
 const { min } = require('moment-timezone');
 const userModel = require('../models/user.js');
+const randomUA = require('modern-random-ua');
 
 
 
@@ -30,20 +31,20 @@ exports.runTest = async (req, res) => {
     var jobName = req.params.email;
 
     
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/10 * * * * *', async () => {
        console.log("Starting Job 🦺");
         var workingZips = [];
         const browser = await puppeteer.launch({
             headless: false,
         });
         const page = await browser.newPage();
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/90.0.4427.0 Safari/537.36');
         
-        
-        await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
+       /*await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
         await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
-        await page.waitForNavigation();
+        await page.waitForNavigation();*/
        
-        //await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+        await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
        
         
         
@@ -53,14 +54,15 @@ exports.runTest = async (req, res) => {
                 console.log(nearbyZips[i]);
               
                 await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
+                await new Promise(r => setTimeout(r, 2000));
+
                 await page.click('button[data-reactid="16"]');
+                await new Promise(r => setTimeout(r, 2000));
+
                 let errorMsg = await page.$('span.input__error-text > strong');
                 if(errorMsg != undefined){
-                    //await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
-                    await page.goBack();
-                    await page.waitForNavigation()
-                    await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
-                    await page.waitForNavigation();
+                    await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
+                   
                     nearbyZips.push(nearbyZips[i]);                
                     continue;
                 }

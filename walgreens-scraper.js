@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
 
-/*
+
 (async () => {
 
     puppeteer.use(StealthPlugin())
@@ -11,6 +11,10 @@ const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
     var workingZips = [];
     const browser = await puppeteer.launch({
         headless: false,
+        //Argentina
+        //args: ['--proxy-server=5.160.88.210:3128'] 
+        //Netherlands
+        //args: ['--proxy-server=142.93.130.126:80'] 
     });
     const page = await browser.newPage();
  
@@ -43,22 +47,5 @@ const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
         }
     }
     await browser.close();
-})();*/
+})();
 
-const Apify = require('apify');
-const randomUA = require('modern-random-ua');
-
-Apify.main(async () => {
-     // Set one random modern user agent for entire browser
-    const browser = await Apify.launchPuppeteer({
-        userAgent: randomUA.generate(),
-    });
-    const page = await browser.newPage();
-    // Or you can set user agent for specific page
-    await page.setUserAgent(randomUA.generate());
-  
-
-    // And work on your code here
-    await page.close();
-    await browser.close();
-});

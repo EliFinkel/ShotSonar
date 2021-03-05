@@ -28,15 +28,16 @@ exports.stealthTest = (req,res) => {
     var jobName = req.params.email;
 
 
-    const job = schedule.scheduleJob(jobName, '*/2 * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/30 * * * * *', async () => {
 
         console.log("Starting Job 🦺");
         var workingZips = [];
         puppeteer.use(StealthPlugin())
         puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
-        puppeteer.launch({ headless: true, userAgent: randomUA.generate() }).then(async browser => {
+        //args: ['--proxy-server=165.139.46.17:8080']
+        puppeteer.launch({ headless: false, userAgent: randomUA.generate(),  }).then(async browser => {
             const page = await browser.newPage();       
-            await page.setUserAgent(randomUA.generate());
+            await page.setUserAgent(randomUA.generate(),'https://www.google.com');
 
             await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
 
@@ -48,7 +49,9 @@ exports.stealthTest = (req,res) => {
                     console.log(nearbyZips[i]);
 
                     await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
+                    await new Promise(r => setTimeout(r, 2000));
                     await page.click('button[data-reactid="16"]');
+                    await new Promise(r => setTimeout(r, 2000));
                     let errorMsg = await page.$('span.input__error-text > strong');
                     if(errorMsg != undefined){
                         await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });
