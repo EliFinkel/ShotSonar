@@ -35,7 +35,7 @@ exports.stealthTest = (req,res) => {
         puppeteer.use(StealthPlugin())
         puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
         //args: ['--proxy-server=165.139.46.17:8080']
-        puppeteer.launch({ headless: false, userAgent: randomUA.generate(),  }).then(async browser => {
+        puppeteer.launch({ headless: true, userAgent: randomUA.generate(), args: ['--no-sandbox','--disable-setuid-sandbox'] }).then(async browser => {
             const page = await browser.newPage();       
             await page.setUserAgent(randomUA.generate(),'https://www.google.com');
 
