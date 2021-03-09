@@ -28,18 +28,38 @@ exports.stealthTest = (req,res) => {
     var jobName = req.params.email;
 
 
-    const job = schedule.scheduleJob(jobName, '*/30 * * * * *', async () => {
+    const job = schedule.scheduleJob(jobName, '*/1 * * * *', async () => {
 
         console.log("Starting Job 🦺");
         var workingZips = [];
         puppeteer.use(StealthPlugin())
         puppeteer.use(AdblockerPlugin({ blockTrackers: true }))
-        //args: ['--proxy-server=165.139.46.17:8080']
-        puppeteer.launch({ headless: true, userAgent: randomUA.generate(), args: ['--no-sandbox','--disable-setuid-sandbox'] }).then(async browser => {
+        puppeteer.launch({ headless: false, ignoreHTTPSErrors: true, args: 
+            ['--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-infobars',
+            '--window-position=0,0',
+            '--ignore-certifcate-errors',
+            '--ignore-certifcate-errors-spki-list',
+            //'--proxy-server=172.67.181.145:80',
+            `--window-size=1280,800`
+        ]}).then(async browser => {
             const page = await browser.newPage();       
-            await page.setUserAgent(randomUA.generate(),'https://www.google.com');
+            await page.setUserAgent(randomUA.generate());
+            
+            //await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+            await page.goto('https://www.walgreens.com/');
+        
+            await page.click('img[src = "/images/adaptive/sp/brandstory_slot2.jpg"]')
+            //await page.waitForNavigation();
+       
 
-            await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19/location-screening');
+            //await pasge.click('a[href="/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule" role="button"]')
+            const [el] = await page.$x('/html/body/main/div[1]/div/section/div/div[2]/div[6]/div[1]/a/span');
+     
+   
+            await page.click('a[href = "/findcare/vaccination/covid-19/location-screening"]');
+            //await page.waitForNavigation();
 
 
 
@@ -49,9 +69,11 @@ exports.stealthTest = (req,res) => {
                     console.log(nearbyZips[i]);
 
                     await page.$eval('input#inputLocation', (el, value) => el.value = value, nearbyZips[i]);
-                    await new Promise(r => setTimeout(r, 2000));
+                    //await new Promise(r => setTimeout(r, 2000));
+                    await page.waitFor((Math.floor(Math.random() * 2) + 1) * 1000)
                     await page.click('button[data-reactid="16"]');
-                    await new Promise(r => setTimeout(r, 2000));
+                    //await new Promise(r => setTimeout(r, 2000));
+                    await page.waitFor((Math.floor(Math.random() * 2) + 1) * 1000)
                     let errorMsg = await page.$('span.input__error-text > strong');
                     if(errorMsg != undefined){
                         await page.reload({ waitUntil: ["networkidle0", "domcontentloaded"] });

@@ -36,8 +36,13 @@ exports.runTest = async (req, res) => {
         var workingZips = [];
         const browser = await puppeteer.launch({
             headless: false,
+            args: [ '--proxy-server=p.webshare.io:80']
         });
         const page = await browser.newPage();
+        await page.authenticate({
+            username: 'zaabbbfs-US-rotate',
+            password: '6adk02aw9ijf'
+        });     
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/90.0.4427.0 Safari/537.36');
         
        /*await page.goto('https://www.walgreens.com/findcare/vaccination/covid-19?ban=covid_vaccine_landing_schedule');
