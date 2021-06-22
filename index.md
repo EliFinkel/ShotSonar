@@ -1,37 +1,3 @@
-## Welcome to GitHub Pages
+## Shot Sonar
 
-You can use the [editor on GitHub](https://github.com/EliFinkel/ShotSonar/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/EliFinkel/ShotSonar/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Shot Sonar was built using Node.js and EJS.  Shot Sonar uses fast headless webscrapping to search every walgreens within a 50mile radius.  The program first takes in a users email address and current zip code.  Using an API it then compiles an array of all the zipcodes within 50 miles of you.  A Shot Sonar opeator can than activate the search for each individual user.  When the program finds avaible vaccine apointments it will compile the tested zipcodes into an array and sort them by the closest walgreens to you.  Finally, the 10 closest zipcodes will be neatly emailed to you.  The search can run within 30 seconds and can be used on several users at 
